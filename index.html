@@ -21,35 +21,84 @@
       body {
         display: flex;
         flex-direction: column;
+        position: relative;
       }
 
       header {
-        background: teal;
-        color: #fff;
-        padding: 7px .7rem;
+        background: #fff;
+        color: #3f3f3f;
+        padding: 7px 1.6rem;
         display: flex;
         flex-flow: nowrap;
-        justify-content: space-between;
-          box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        justify-content: flex-start;
+        align-items: center;
+        box-shadow: 0 0 2px rgba(0,0,0,0.25);
+        transition: all .5s linear;
+        position:fixed;
+        top:0;
+        left:0;
+        width:100%;
+        height:40px;
+        z-index:99;
       }
 
-      header a {
-        color: inherit;
-        text-decoration: none;
-        font-size: 2.2rem;
+      .top {
+        box-shadow: none;
       }
 
-      header button {
-        background: none;
-        border:none;
-        color: inherit;
-        font-size: 2.2rem;
-        outline: none;
-        cursor: pointer;
+      header div {
+        background: url("./assets/img/menu.png") center center no-repeat;
+        width: 24px;
+        height:24px;
+        background-size: 24px;
       }
 
       main {
         flex:1;
+        margin-top: 40px;
+        padding: 20px;
+      }
+
+      #pushing_menu {
+        position: absolute;
+        top:0;
+        left:0;
+        width:70%;
+        height:100%;
+        background:#fff;
+        color: #3f3f3f;
+        will-change: transform;
+        transform: translateX(0);
+        transition: transform .4s ease-out;
+        box-shadow:0 0 10px rgba(0,0,0,0.2);
+        z-index: 100;
+      }
+
+      #pushing_menu ul {
+        padding-top:30px;
+        padding-left:30px;
+        height: 50%;
+      }
+
+      #pushing_menu ul li {
+        list-style: none;
+        font-size: 1.8rem;
+        margin-bottom:20px;
+      }
+
+      #pushing_menu ul li ul {
+        padding-top:7px;
+        padding-left: 10px;
+      }
+
+      #pushing_menu ul li ul li {
+        font-size:1.2rem;
+        color: rgba(0,0,0,.6);
+        margin-bottom:5px;
+      }
+
+      .closed {
+        transform: translateX(-150%) !important;
       }
 
       footer {
@@ -59,20 +108,76 @@
         background: #3f3f3f;
         color: #fff;
       }
+
+      .will__blurr {
+        transition: all .3s linear;
+      }
+
+      .blurred {
+        -webkit-filter: blur(2px);
+        -moz-filter: blur(2px);
+        -o-filter: blur(2px);
+        -ms-filter: blur(2px);
+        filter: blur(2px);
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
-  <header>
-    <button id="menu">
-        Menu
-    </button>
-    <h1><a href="/">Mtg Events</a></h1>
+  <header class="top will__blurr">
+    <div id="menu-icon" onclick="anim(this)"></div>
   </header>
-  <main>
+  <div id="pushing_menu" class="closed">
+    <ul>
+      <li class="pushingLink" data-link="about">About
+        <ul>
+          <li>Perchè esiste MtgEvents</li>
+          <li>I tre buoni motivi per usarlo</li>
+          <li>Il futuro è nostro</li>
+        </ul>
+      </li>
+      <li class="pushingLink" data-link="blog">Blog</li>
+      <li class="pushingLink" data-link="contact">Contact</li>
+    </ul>
+  </div>
+  <main class="will__blurr" id="app">
   </main>
-  <footer>
+  <footer class="will__blurr">
     <small>Site designed by Dino Pascale</small>
   </footer>
+  <script type="text/javascript">
+    function anim(target) {
+      let blurringElements = document.getElementsByClassName('will__blurr');
+      Array.prototype.forEach.call(blurringElements, function(el){
+        el.classList.contains('blurred')
+        ? el.classList.remove('blurred')
+        : el.classList.add('blurred')
+      })
+      let pushingMenu = document.getElementById('pushing_menu');
+      pushingMenu.classList.remove('closed');
+      window.addEventListener('click', closingMenu, true)
+      let pushingLinks = document.getElementsByClassName('pushingLink');
+      Array.prototype.forEach.call(pushingLinks, function(el){
+        el.addEventListener('click', function() {
+            window.location.href = "/#/"+el.dataset.link
+        },true)
+      })
+    }
+
+    function closingMenu(event) {
+      let pushingMenu = document.getElementById('pushing_menu'),
+          blurringElements = document.getElementsByClassName('will__blurr');
+      if(event.target !== pushingMenu){
+        pushingMenu.classList.add('closed')
+        Array.prototype.forEach.call(blurringElements, function(el){
+          el.classList.remove('blurred')
+        })
+        window.removeEventListener('click', closingMenu , true)
+      } else {
+        return false
+      }
+    }
+  </script>
+    <script src="app/bundle.js"></script>
   </body>
-  <script src="app/bundle.js"></script>
 </html>

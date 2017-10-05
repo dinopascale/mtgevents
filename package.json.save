@@ -5,7 +5,7 @@
   "main": "entry.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "concurrently \"webpack --watch\" \"lite-server\" "
+    "dev": "concurrently \"webpack && webpack-dev-server --progress --colors --open "
   },
   "repository": {
     "type": "git",
