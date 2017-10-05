@@ -3,20 +3,24 @@ class App {
     this.appElement = document.querySelector(selector);
     this.componentsByName = {};
   }
+
   addComponent(component) {
-
-    this.componentsByName[component.name] = component;
+    this.componentsByName[component.model.name] = component;
   }
-  showComponent(name) {
+
+  mountComponent(name) {
     this.currentComponent = this.componentsByName[name];
-
-    if(this.currentComponent) {
-      this.currentComponent.controller(this.currentComponent.model,this.currentComponent.view)
-    }
-    this.updateView()
+    this.updateGlobalView()
   }
-  updateView() {
-    this.appElement.innerHTML = this.currentComponent.view(this.currentComponent.model)
+
+  updateGlobalView() {
+    const mounting = new Promise((resolve,reject) => {
+      this.appElement.innerHTML = this.currentComponent.view()
+      resolve();
+    })
+      .then( () => {
+        this.currentComponent.controller();
+      })
   }
 }
 export default App;
