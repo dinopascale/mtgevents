@@ -24,6 +24,22 @@
         position: relative;
       }
 
+      #loading {
+        position: absolute;
+        width:100%;
+        height:100%;
+        background: #000;
+        opacity:1;
+        z-index:101;
+        transition:opacity .7s ease;
+        background: url('./assets/img/spinner.gif') no-repeat center center;
+      }
+
+      .fade {
+        opacity: 0 !important;
+        /*z-index:-100 !important;*/
+      }
+
       header {
         background: #fff;
         color: #3f3f3f;
@@ -124,6 +140,7 @@
     </style>
   </head>
   <body>
+  <div id="loading"></div>
   <header class="top will__blurr">
     <div id="menu-icon" onclick="anim(this)"></div>
   </header>
@@ -146,6 +163,12 @@
     <small>Site designed by Dino Pascale</small>
   </footer>
   <script type="text/javascript">
+
+  window.onload = function() {
+        document.getElementById('loading').classList.add('fade');
+      };
+
+
     function anim(target) {
       let blurringElements = document.getElementsByClassName('will__blurr');
       Array.prototype.forEach.call(blurringElements, function(el){
@@ -178,6 +201,6 @@
       }
     }
   </script>
-    <script src="app/bundle.js"></script>
+    <script src="app/bundle.js" defer></script>
   </body>
 </html>

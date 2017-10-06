@@ -20,6 +20,7 @@ class Router {
     const route = this.routes.filter(route => hash.match(new RegExp(route.url)))[0];
 
     if(route) {
+      this.params = new RegExp(route.url).exec(hash);
       this.app.mountComponent(route.name);
     } else if (hash === "") {
       this.app.mountComponent('home');
@@ -30,3 +31,6 @@ class Router {
 }
 
 export default Router;
+
+
+///^#\/search\/lat=?([-]?[0-9]*\.?[0-9]+).+?lon=?([-]?[0-9]*\.?[0-9]+)/ REGEX PER SEARCH PAGE

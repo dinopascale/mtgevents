@@ -82,11 +82,11 @@ var _searchingForm = __webpack_require__(3);
 
 var _searchingForm2 = _interopRequireDefault(_searchingForm);
 
-var _about = __webpack_require__(5);
+var _about = __webpack_require__(4);
 
 var _about2 = _interopRequireDefault(_about);
 
-var _api = __webpack_require__(4);
+var _api = __webpack_require__(5);
 
 var _api2 = _interopRequireDefault(_api);
 
@@ -201,6 +201,7 @@ var Router = function () {
       })[0];
 
       if (route) {
+        this.params = new RegExp(route.url).exec(hash);
         this.app.mountComponent(route.name);
       } else if (hash === "") {
         this.app.mountComponent('home');
@@ -214,6 +215,8 @@ var Router = function () {
 }();
 
 exports.default = Router;
+
+///^#\/search\/lat=?([-]?[0-9]*\.?[0-9]+).+?lon=?([-]?[0-9]*\.?[0-9]+)/ REGEX PER SEARCH PAGE
 
 /***/ }),
 /* 3 */
@@ -290,42 +293,6 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var API = function () {
-  function API() {
-    _classCallCheck(this, API);
-
-    this.API_URL = "http://dinopascale.altervista.org/testApi/search_pptq.php";
-  }
-
-  _createClass(API, [{
-    key: "getPPTQ",
-    value: function getPPTQ() {
-      return fetch(this.API_URL).then(function (res) {
-        return res.json();
-      });
-    }
-  }]);
-
-  return API;
-}();
-
-exports.default = API;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 var About = function () {
   function About(name) {
     _classCallCheck(this, About);
@@ -349,6 +316,42 @@ var About = function () {
 }();
 
 exports.default = About;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var API = function () {
+  function API() {
+    _classCallCheck(this, API);
+
+    this.API_URL = "http://dinopascale.altervista.org/testApi/search_pptq.php";
+  }
+
+  _createClass(API, [{
+    key: "getPPTQ",
+    value: function getPPTQ() {
+      return fetch(this.API_URL).then(function (res) {
+        return res.json();
+      });
+    }
+  }]);
+
+  return API;
+}();
+
+exports.default = API;
 
 /***/ })
 /******/ ]);
