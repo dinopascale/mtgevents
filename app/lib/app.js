@@ -5,7 +5,7 @@ class App {
   }
 
   addComponent(component) {
-    this.componentsByName[component.model.name] = component;
+    this.componentsByName[component.name] = component;
   }
 
   mountComponent(name) {
@@ -15,11 +15,11 @@ class App {
 
   updateGlobalView() {
     const mounting = new Promise((resolve,reject) => {
-      this.appElement.innerHTML = this.currentComponent.view()
+      this.appElement.innerHTML = this.currentComponent.render()
       resolve();
     })
       .then( () => {
-        this.currentComponent.controller();
+        this.currentComponent.addReceptor();
       })
   }
 }

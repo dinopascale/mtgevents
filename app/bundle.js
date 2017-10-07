@@ -78,28 +78,19 @@ var _router = __webpack_require__(2);
 
 var _router2 = _interopRequireDefault(_router);
 
-var _searchingForm = __webpack_require__(3);
+var _home = __webpack_require__(3);
 
-var _searchingForm2 = _interopRequireDefault(_searchingForm);
-
-var _about = __webpack_require__(4);
-
-var _about2 = _interopRequireDefault(_about);
-
-var _api = __webpack_require__(5);
-
-var _api2 = _interopRequireDefault(_api);
+var _home2 = _interopRequireDefault(_home);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = new _app2.default('#app');
-var api = new _api2.default();
+//import About from './components/about'
 
-var homePage = new _searchingForm2.default('home');
-var aboutPage = new _about2.default('about');
+
+var homePage = new _home2.default('home');
 
 app.addComponent(homePage);
-app.addComponent(aboutPage);
 
 var router = new _router2.default(app);
 router.addRoute('about', '^#/about$');
@@ -130,7 +121,7 @@ var App = function () {
   _createClass(App, [{
     key: "addComponent",
     value: function addComponent(component) {
-      this.componentsByName[component.model.name] = component;
+      this.componentsByName[component.name] = component;
     }
   }, {
     key: "mountComponent",
@@ -144,10 +135,10 @@ var App = function () {
       var _this = this;
 
       var mounting = new Promise(function (resolve, reject) {
-        _this.appElement.innerHTML = _this.currentComponent.view();
+        _this.appElement.innerHTML = _this.currentComponent.render();
         resolve();
       }).then(function () {
-        _this.currentComponent.controller();
+        _this.currentComponent.addReceptor();
       });
     }
   }]);
@@ -206,7 +197,7 @@ var Router = function () {
       } else if (hash === "") {
         this.app.mountComponent('home');
       } else {
-        return '<h3>404 Not Found';
+        return '<h3>404 Not Found</h3>';
       }
     }
   }]);
@@ -231,24 +222,207 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
+var _cell = __webpack_require__(4);
+
+var _cell2 = _interopRequireDefault(_cell);
+
+var _searchingForm = __webpack_require__(5);
+
+var _searchingForm2 = _interopRequireDefault(_searchingForm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Home = function (_Cell) {
+  _inherits(Home, _Cell);
+
+  function Home(name) {
+    _classCallCheck(this, Home);
+
+    var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, name));
+
+    _this.listOrganelle = [];
+    var form = new _searchingForm2.default('position');
+    _this.listOrganelle.push(form);
+    return _this;
+  }
+
+  _createClass(Home, [{
+    key: 'addReceptor',
+    value: function addReceptor() {
+      _get(Home.prototype.__proto__ || Object.getPrototypeOf(Home.prototype), 'active', this).call(this, this.listOrganelle);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return '\n      <h1 class="title">Mtg Discovery</h1>\n      <h3 class="subtitle">Trovare i pptq non \xE8 mai stato cos\xEC facile</h3>\n      ' + _get(Home.prototype.__proto__ || Object.getPrototypeOf(Home.prototype), 'express', this).call(this, this.listOrganelle);
+    }
+  }]);
+
+  return Home;
+}(_cell2.default);
+
+exports.default = Home;
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Cell = function () {
+  function Cell(name) {
+    _classCallCheck(this, Cell);
+
+    this.name = name;
+  }
+
+  _createClass(Cell, [{
+    key: "active",
+    value: function active(listOrganelle) {
+      Array.prototype.forEach.call(listOrganelle, function (el) {
+        el.controller();
+      });
+    }
+  }, {
+    key: "express",
+    value: function express(listOrganelle) {
+      var structure = "";
+      Array.prototype.forEach.call(listOrganelle, function (el) {
+        structure += el.view();
+      });
+      return structure;
+    }
+  }]);
+
+  return Cell;
+}();
+
+exports.default = Cell;
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _api = __webpack_require__(6);
+
+var _api2 = _interopRequireDefault(_api);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var searchingForm = function () {
   function searchingForm(name) {
     _classCallCheck(this, searchingForm);
 
-    this.model = {
-      "name": name,
-      "autoCompleteList": [],
-      "inputValue": ""
-    };
+    this.name = name;
+    //this.model = this.model.bind(this);
+    this._handleKeyUp = this._handleKeyUp.bind(this);
+    this.model(name);
   }
 
   _createClass(searchingForm, [{
+    key: "model",
+    value: function model(n) {
+      var _this = this;
+
+      var id = n,
+          autocompleteList = "",
+          cache = {},
+          inputValue = "";
+      Object.defineProperties(this.model, {
+        'id': {
+          get: function get() {
+            return id;
+          }
+        },
+        'autocompleteList': {
+          get: function get() {
+            console.log('get dalla view');
+            return autocompleteList;
+          },
+          set: function set(val) {
+            autocompleteList += val;
+            console.log('settata autocompleteList', autocompleteList);
+            _this.updateView();
+          }
+        },
+        'cache': {
+          get: function get() {
+            return cache;
+          },
+          set: function set(val) {
+            cache = val;
+          }
+        },
+        'inputValue': {
+          get: function get() {
+            return inputValue;
+          },
+          set: function set(val) {
+            inputValue = val;
+          }
+        }
+      });
+    }
+  }, {
     key: "_handleKeyUp",
     value: function _handleKeyUp(e) {
+      var _this2 = this;
+
       /*QUI INSERIREMO LA CHIAMATA ALL'AUTOCOMPLETE*/
-      console.log(e.target.value);
+      var input = e.target.value;
+      //this.model.inputValue = input;
+      /*let results = [];
+      let docFrag = document.createDocumentFragment();
+      const listAutoCompleteDOM = document.getElementById('comuni');
+      while (listAutoCompleteDOM.firstChild) {
+          listAutoCompleteDOM.removeChild(listAutoCompleteDOM.firstChild);
+      }*/
+      if (input.length >= 3) {
+        _api2.default.autocomplete(input).then(function (data) {
+          var c = 0;
+          Array.prototype.forEach.call(data, function (el) {
+            var elToHtml = '<option value="' + el.Nome + '" />';
+            _this2.model.autocompleteList = elToHtml;
+            c += 1;
+            /*const value = el.Nome+" ( "+el.Provincia+" )";
+            results.push(value);
+            const option = document.createElement('option')
+            option.value = value
+            docFrag.appendChild(option)*/
+          });
+          //listAutoCompleteDOM.appendChild(docFrag)
+          //this.model.inputValue = input;
+          //this.model.autoCompleteListCache[input] = results;
+        });
+      }
     }
   }, {
     key: "_handleClick",
@@ -267,9 +441,22 @@ var searchingForm = function () {
       });
     }
   }, {
+    key: "updateView",
+    value: function updateView() {
+      console.log('updatiamo la view');
+      var notinit = 'not';
+      var DOMElement = document.getElementById(this.name);
+      DOMElement.innerHTML = this.view(notinit);
+    }
+  }, {
     key: "view",
-    value: function view() {
-      return "\n      <h1 class=\"title\">Mtg Discovery</h1>\n      <h3 class=\"subtitle\">Trovare i pptq non \xE8 mai stato cos\xEC facile</h3>\n      <input class=\"searchBox " + this.model.name + "\" data-event=\"keyup\" type=\"text\"/>\n      <button\n        data-event=\"click\"\n        class=\"searchBtn " + this.model.name + "\"\n      >Search\n      </button>\n    ";
+    value: function view(i) {
+      console.log(i);
+      if (i == null) {
+        return "\n      <div id=" + this.name + ">\n        <input class=\"searchBox " + this.model.name + "\" data-event=\"keyup\" type=\"text\" list=\"comuni\" value=\"" + this.model.inputValue + "\" />\n        <button\n          data-event=\"click\"\n          class=\"searchBtn " + this.model.name + "\"\n        >Search\n        </button>\n        <datalist id=\"comuni\">\n        " + this.model.autocompleteList + "\n        </datalist>\n      </div>\n    ";
+      } else {
+        return "\n      <input class=\"searchBox " + this.model.name + "\" data-event=\"keyup\" type=\"text\" list=\"comuni\" value=\"" + this.model.inputValue + "\" />\n      <button\n        data-event=\"click\"\n        class=\"searchBtn " + this.model.name + "\"\n      >Search\n      </button>\n      <datalist id=\"comuni\">\n      </datalist>";
+      }
     }
   }]);
 
@@ -279,7 +466,7 @@ var searchingForm = function () {
 exports.default = searchingForm;
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -291,58 +478,29 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var About = function () {
-  function About(name) {
-    _classCallCheck(this, About);
-
-    this.model = {
-      "name": name
-    };
-  }
-
-  _createClass(About, [{
-    key: "controller",
-    value: function controller() {}
-  }, {
-    key: "view",
-    value: function view() {
-      return "\n      <h1>About</h1>\n    ";
-    }
-  }]);
-
-  return About;
-}();
-
-exports.default = About;
-
-/***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _const = __webpack_require__(7);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var API = function () {
   function API() {
     _classCallCheck(this, API);
-
-    this.API_URL = "http://dinopascale.altervista.org/testApi/search_pptq.php";
   }
 
-  _createClass(API, [{
-    key: "getPPTQ",
+  _createClass(API, null, [{
+    key: 'getPPTQ',
     value: function getPPTQ() {
-      return fetch(this.API_URL).then(function (res) {
+      var API_SEARCH_PPTQ = _const.API_ROOT + 'search_pptq.php';
+      return fetch(API_SEARCH_PPTQ).then(function (res) {
+        return res.json();
+      });
+    }
+  }, {
+    key: 'autocomplete',
+    value: function autocomplete(str) {
+      var API_AUTOCOMPLETE = _const.API_ROOT + 'autocomplete.php';
+      var i = str;
+      return fetch(API_AUTOCOMPLETE + '?i=' + i).then(function (res) {
         return res.json();
       });
     }
@@ -352,6 +510,18 @@ var API = function () {
 }();
 
 exports.default = API;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var API_ROOT = exports.API_ROOT = 'http://dinopascale.altervista.org/testApi/';
 
 /***/ })
 /******/ ]);

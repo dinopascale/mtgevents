@@ -25,7 +25,7 @@ class Router {
     } else if (hash === "") {
       this.app.mountComponent('home');
     } else {
-      return `<h3>404 Not Found`
+      return `<h3>404 Not Found</h3>`
     }
   }
 }

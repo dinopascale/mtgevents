@@ -1,10 +1,18 @@
+import { API_ROOT } from './const'
+
 class API {
-  constructor() {
-    this.API_URL = "http://dinopascale.altervista.org/testApi/search_pptq.php"
-  }
-  getPPTQ() {
-    return fetch(this.API_URL)
+
+  static getPPTQ() {
+    const API_SEARCH_PPTQ = API_ROOT+'search_pptq.php'
+    return fetch(API_SEARCH_PPTQ)
       .then(res => res.json())
+  }
+
+  static autocomplete(str) {
+     const API_AUTOCOMPLETE = API_ROOT+'autocomplete.php'
+     const i = str;
+     return fetch(API_AUTOCOMPLETE+'?i='+i)
+       .then(res => res.json())
   }
 }
 

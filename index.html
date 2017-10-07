@@ -31,13 +31,13 @@
         background: #000;
         opacity:1;
         z-index:101;
+        transform: translateX(0);
         transition:opacity .7s ease;
-        background: url('./assets/img/spinner.gif') no-repeat center center;
       }
 
       .fade {
         opacity: 0 !important;
-        /*z-index:-100 !important;*/
+        transform: translateX(-100%) !important;
       }
 
       header {
@@ -145,7 +145,7 @@
     <div id="menu-icon" onclick="anim(this)"></div>
   </header>
   <div id="pushing_menu" class="closed">
-    <ul>
+    <ul id="pushingList">
       <li class="pushingLink" data-link="about">About
         <ul>
           <li>Perchè esiste MtgEvents</li>
@@ -189,8 +189,9 @@
 
     function closingMenu(event) {
       let pushingMenu = document.getElementById('pushing_menu'),
+          pushingList = document.getElementById('pushingList'),
           blurringElements = document.getElementsByClassName('will__blurr');
-      if(event.target !== pushingMenu){
+      if(event.target !== pushingMenu && event.target !== pushingList){
         pushingMenu.classList.add('closed')
         Array.prototype.forEach.call(blurringElements, function(el){
           el.classList.remove('blurred')
