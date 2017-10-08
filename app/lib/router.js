@@ -1,36 +1,32 @@
-class Router {
+class ROUTER {
   constructor(app) {
     this.app = app;
     this.routes = [];
     this.hashChange = this.hashChange.bind(this);
 
-    window.addEventListener('hashchange', this.hashChange)
-    window.addEventListener('DOMContentLoaded',this.hashChange)
+    window.addEventListener('hashchange', this.hashChange);
+    window.addEventListener('DOMContentLoaded', this.hashChange);
   }
 
-  addRoute(name, url) {
+  addRoute (name,url) {
     this.routes.push({
       name,
       url
-    })
+    });
   }
-
   hashChange() {
     const hash = window.location.hash;
     const route = this.routes.filter(route => hash.match(new RegExp(route.url)))[0];
 
     if(route) {
       this.params = new RegExp(route.url).exec(hash);
-      this.app.mountComponent(route.name);
-    } else if (hash === "") {
-      this.app.mountComponent('home');
+      this.app.showComponent(route.name);
+    } else if(hash===""){
+      this.app.showComponent('home')
     } else {
-      return `<h3>404 Not Found</h3>`
+      this.app.showComponent();
     }
   }
 }
 
-export default Router;
-
-
-///^#\/search\/lat=?([-]?[0-9]*\.?[0-9]+).+?lon=?([-]?[0-9]*\.?[0-9]+)/ REGEX PER SEARCH PAGE
+export default ROUTER

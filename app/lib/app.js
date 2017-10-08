@@ -1,4 +1,4 @@
-class App {
+class APP {
   constructor(selector) {
     this.appElement = document.querySelector(selector);
     this.componentsByName = {};
@@ -6,21 +6,42 @@ class App {
 
   addComponent(component) {
     this.componentsByName[component.name] = component;
+    //component.model = this.proxify(component.model);
   }
 
-  mountComponent(name) {
+  showComponent(name) {
     this.currentComponent = this.componentsByName[name];
-    this.updateGlobalView()
+
+    if(this.currentComponent) {
+    //this.currentComponent.controller(this.currentComponent.model);
+    }
+    this.updateView()
   }
 
-  updateGlobalView() {
-    const mounting = new Promise((resolve,reject) => {
+  updateView() {
+    new Promise((resolve, reject) => {
+      console.log(this.currentComponent.name);
       this.appElement.innerHTML = this.currentComponent.render()
       resolve();
     })
-      .then( () => {
-        this.currentComponent.addReceptor();
-      })
+     .then( () => {
+       this.currentComponent.MVC()
+       //this.currentComponent.view(this.currentComponent.model, this.currentComponent.controller);
+    });
   }
+
+  /*proxify(model) {
+    const self = this;
+    return new Proxy(model, {
+      set(target,property,value) {
+       //console.log(target);
+       console.log('Changing', property, 'from', target[property], 'to', value);
+        target[property] = value;
+        self.updateView();
+        return true;
+      }
+    })
+  }*/
 }
-export default App;
+//UPDATE VIEW SARA PRIMA CANCELLARE CHILD E POI METTERLI
+export default APP

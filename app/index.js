@@ -1,13 +1,11 @@
-import App from './lib/app'
-import Router from './lib/router'
-//import About from './components/about'
-import Home from './Routes/home'
+import APP from './lib/app'
+import ROUTER from './lib/router'
+import HomeComponent from './routes/home/home'
 
-const app = new App('#app');
 
-let homePage = new Home('home');
+const app = new APP('#app');
+const router = new ROUTER(app);
 
-app.addComponent(homePage);
+const home = new HomeComponent('home')
 
-const router = new Router(app);
-router.addRoute('about', '^#/about$');
+app.addComponent(home);
